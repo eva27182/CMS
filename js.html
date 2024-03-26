@@ -1,0 +1,441 @@
+<script>
+  function moveToMenu(link) {
+        window.top.location.href = currentURL + link;
+    }
+
+    google.script.run.withSuccessHandler(onSuccessInsertHTML).insertHTML();
+    function onSuccessInsertHTML(html) {
+        let newElem = document.querySelector("#leftSideBar");
+        newElem.innerHTML = html;
+    }
+</script>
+<script>
+  setTimeout(closeMenuTab, 3000)
+    function closeMenuTab() {
+        const hamburger = document.querySelector("#btn01");
+        hamburger.addEventListener("click", function () {
+            hamburger.classList.toggle("active");
+            document.querySelector("#buttonArea").classList.toggle("active");
+            document.querySelector("#leftSideBar").classList.toggle("active");
+            document.querySelector("main").classList.toggle("active");
+            return false
+        })
+    }
+
+</script>
+<script>
+  function moveToID(button) {
+        let id = button.id;
+        window.top.location.href = currentURL + id;
+    }
+
+</script>
+<script>
+  function moveToArticleID(button) {
+        let articleID = button.querySelector(".id").textContent
+        let id = button.id;
+        window.top.location.href = currentURL + 'editArticles' + "&id=" + articleID;
+    }
+
+    function onSuccessArticleList(articles) {
+        function createDiv(button, classValue, textContents) {
+            let div = document.createElement("div");
+            div.classList.add(classValue);
+            div.textContent = textContents;
+            button.appendChild(div);
+        }
+        function createLists(article) {
+            let newButton = document.createElement("button");
+            newButton.type = "button";
+            newButton.classList.add("article");
+            newButton.setAttribute("onclick", "moveToArticleID(this)");
+            createDiv(newButton, "id", article[0]);
+            createDiv(newButton, "title", article[1]);
+            createDiv(newButton, "bigPart", article[2]);
+            createDiv(newButton, "middlePart", article[3]);
+            createDiv(newButton, "smallPart", article[4]);
+            document.querySelector("#menu").appendChild(newButton);
+        }
+        articles = JSON.parse(articles);
+        articles = articles.slice(1)
+        for (let article of articles) {
+            createLists(article);
+        }
+    }
+    google.script.run.withSuccessHandler(onSuccessArticleList).getArticles();
+</script>
+<script>
+  //enterキーでのsubmitを禁止
+    document.querySelector(".formArea").onkeypress = (e) => {
+        // form1に入力されたキーを取得
+        const key = e.keyCode || e.charCode || 0;
+        // 13はEnterキーのキーコード
+        if (key == 13) {
+            // アクションを行わない
+            e.preventDefault();
+        }
+    }
+    function scrollToElement(id) {
+        var element = document.getElementById(id);
+        element.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+    }
+
+    //タグの追加
+    document.addEventListener("DOMContentLoaded", function () {
+        var addTagElement = document.querySelector('.addTag');
+        var tagAreaElement = document.querySelector('#tagArea');
+
+        addTagElement.addEventListener('click', function () {
+            var tag = prompt("新しく追加するタグを入力してください:");
+            if (tag !== null && tag !== "") {
+                tagAreaElement.textContent += "/" + tag;
+            }
+        });
+    });
+
+    //原因追加
+    function addCause() {
+        let causeBox = document.querySelector(".causeBox");
+        let causeDiv = causeBox.querySelectorAll("div");
+        let numDiv = causeBox.querySelectorAll('.hidden');
+        console.log("numDiv", numDiv);
+        if (numDiv.length <= 0) {
+            alert("追加できる原因は５個までです");
+        }
+        else {
+          numDiv[0].classList.remove("hidden");
+        }
+    }
+
+    //対処法追加
+    function addApproach() {
+        let approaches = document.querySelectorAll(".approachDetailsBox");
+        if (approaches[6].hidden) {
+        }
+        else {
+            alert("対処法は7個まで追加可能です")
+        }
+        for (let i = 0; i < approaches.length; i++) {
+            if (approaches[i].hidden) {
+                approaches[i].hidden = false;
+                break;
+            }
+        }
+    }
+
+    //詳しい解説を追加
+    function addapproachDetails(button) {
+        let details = button.parentNode.querySelectorAll(".detailDetails");
+        if (details[details.length - 1].hidden) {
+        }
+        else {
+            alert("5個まで追加可能です");
+        }
+        for (let i = 0; i < details.length; i++) {
+            if (details[i].hidden) {
+                details[i].hidden = false;
+                break;
+            }
+        }
+    }
+
+    function addConditionImage(button) {
+        let approaches = button.parentNode.querySelectorAll(".approachImgArea");
+        if (approaches[approaches.length - 1].hidden) {
+        }
+        else {
+            alert("5個まで追加可能です");
+        }
+        for (let i = 0; i < approaches.length; i++) {
+            if (approaches[i].hidden) {
+                approaches[i].hidden = false;
+                break;
+            }
+        }
+    }
+
+
+
+    //サムネイルのプレビュー
+    function previewImgFile(button) {
+        let img = button.parentNode.querySelector("img");
+        let file = button.files[0];
+        if (file && button.files) { // ファイルが選択されているか、かつファイルが存在する場合
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+    function previewVideoFile(button) {
+        let video = button.parentNode.querySelector("video");
+        let file = button.files[0];
+
+        if (file && button.files) { // ファイルが選択されているか、かつファイルが存在する場合
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                video.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+
+        }
+    }
+
+    //ファイルアップロードようボタン
+    function imageButton(button) {
+        let input = button.parentNode.querySelector("input");
+        input.click();
+    }
+
+    //画面がクリックされたとき原因紐付けプルダウンの内容を更新(SELECTタグが直接クリックされると挙動が変になるから除外)
+    document.addEventListener("click", (event) => {
+        if (event.target.className != "selectCause") {
+            let selects = document.querySelectorAll(".selectCause");
+            selects.forEach(select => {
+                let options = select.querySelectorAll("option");
+                let causes = document.querySelector(".causeBox").querySelectorAll("input");
+                for (let i = 0; i < options.length; i++) {
+                    if (causes[i] && causes[i].value != "") {
+                        options[i + 1].textContent = (i + 1).toString() + ":" + causes[i].value;
+                        options[i + 1].removeAttribute("hidden")
+                    }
+                }
+            })
+        }
+    })
+    /*------------------------*/
+    // DOM ツリーの構築が完了したら定義した関数を呼び出す
+    document.addEventListener('DOMContentLoaded', () => {
+        setupToggleDetailsAnimation();
+    });
+
+    // アニメーションの処理を定義した関数
+    function setupToggleDetailsAnimation() {
+        // すべての details 要素
+        const details = document.querySelectorAll('details');
+
+        // 上記で取得したそれぞれの要素に対して以下を実行（elem は各 details 要素）
+        details.forEach(elem => {
+            // summary 要素（この要素の疑似要素で作成したアイコンをアニメーション）
+            const summary = elem.querySelector('summary');
+            // details-content クラスを指定した要素（この要素をアニメーション）
+            const content = elem.querySelector('details>div');
+
+            // summary 要素にクリックイベントのリスナを設定
+            summary.addEventListener('click', (e) => {
+                // デフォルトの動作（open 属性の着脱）をキャンセル
+                e.preventDefault();
+                // open 属性が指定されていれば（開いていれば）
+                if (elem.open) {
+                    //閉じるアニメーションを実行（contentはdetails-contentクラスを指定した要素）
+                    const closeDetails = content.animate(
+                        {
+                            opacity: [1, 0],
+                            height: [content.offsetHeight + 'px', 0],
+                        },
+                        {
+                            duration: 300,
+                            easing: 'ease-in',
+                        }
+                    );
+                    //アイコンを回転させるアニメーションを実行（summary 要素）
+                    const rotateIcon = summary.animate(
+                        { rotate: ["90deg", "0deg"] },
+                        {
+                            duration: 300,
+                            // summary 要素の疑似要素にアニメーションを適用
+                            pseudoElement: "::before",
+                            easing: 'ease-in',
+                            fill: 'forwards',
+                        }
+                    );
+                    // 閉じるアニメーションが終了したら open 属性を削除
+                    closeDetails.onfinish = () => {
+                        elem.removeAttribute('open');
+                    }
+                } else {
+                    // open 属性を details 要素に追加
+                    elem.setAttribute('open', 'true');
+                    // 開くアニメーションを実行
+                    const openDetails = content.animate(
+                        {
+                            opacity: [0, 1],
+                            height: [0, content.offsetHeight + 'px'],
+                        },
+                        {
+                            duration: 300,
+                            easing: 'ease-in',
+                        }
+                    );
+                    // アイコンを回転させるアニメーションを実行（summary 要素）
+                    const rotateIcon = summary.animate(
+                        { rotate: ["0deg", "90deg"] },
+                        {
+                            duration: 300,
+                            // summary 要素の疑似要素にアニメーションを適用
+                            pseudoElement: "::before",
+                            easing: 'ease-in',
+                            fill: 'forwards',
+                        }
+                    );
+                }
+            });
+        });
+    }
+
+    //入力補完を作成する
+    function onSuccess(data) {
+        function createOptions(partsName, selectId) {
+            let parts = allParts[partsName];
+            let bigSelect = document.querySelector(selectId);
+            for (let i of parts) {
+                let newOption = document.createElement("option");
+                newOption.value = i[1];
+                newOption.textContent = i[1];
+                if (i[5] != "") {
+                    newOption.classList.add(i[5]);
+                }
+                bigSelect.appendChild(newOption);
+            }
+        }
+        function createOptionForRelatedArticles() {
+            let parts = allParts["middleParts"];
+            let bigSelects = document.querySelectorAll(".MiddlePart");
+            for (let bigSelect of bigSelects) {
+                for (let i of parts) {
+                    let newOption = document.createElement("option");
+                    newOption.value = i[1];
+                    newOption.textContent = i[1];
+                    if (i[5] != "") {
+                        newOption.classList.add(i[5]);
+                    }
+                    bigSelect.appendChild(newOption);
+                }
+            }
+        }
+        let json = JSON.parse(data);
+        let allParts = json;
+        createOptions("bigParts", "#casePrimaryPartName");
+        createOptions("middleParts", "#caseSecondaryPartName");
+        createOptions("smallParts", "#caseTertiaryPartName");
+        createOptionForRelatedArticles();
+        console.log("optionの入力完了");
+        google.script.run.withSuccessHandler(onSuccessGetArticles).withFailureHandler(onFailer).getArticles();
+        console.log("関連症状入力完了");
+        inputData();
+    }
+    function onFailer() {
+        console.log("エラーが発生");
+    }
+    //以下で部位の配列を取得
+    google.script.run.withSuccessHandler(onSuccess).withFailureHandler(onFailer).getParts();
+
+    //プルダウンの絞り込み
+    document.querySelector("#casePrimaryPartName").onchange = function () {
+        let big = document.querySelector("#casePrimaryPartName");
+        let middle = document.querySelector("#caseSecondaryPartName");
+        middle.value = "";
+        let small = document.querySelector("#caseTertiaryPartName");
+        small.value = "";
+        let options = middle.querySelectorAll("option");
+        for (let i of options) {
+            if (big.value != i.classList[0]) {
+                i.hidden = true
+            }
+            else {
+                i.hidden = false
+            }
+        }
+    }
+    document.querySelector("#caseSecondaryPartName").onchange = function () {
+        let middle = document.querySelector("#caseSecondaryPartName");
+        let small = document.querySelector("#caseTertiaryPartName");
+        small.value = "";
+        let options = small.querySelectorAll("option");
+        for (let i of options) {
+            if (middle.value != i.classList[0]) {
+                i.hidden = true
+            }
+            else {
+                i.hidden = false
+            }
+        }
+    }
+
+    function onSuccessGetArticles(data) {
+        let json = JSON.parse(data).slice(2);
+        let relatedSelects = document.querySelectorAll(".relatedArticles");
+        console.log("関連症状でーた", json);
+        for (let related of relatedSelects) {
+            for (let i of json) {
+              console.log("i", i);
+                let newOption = document.createElement("option");
+                newOption.textContent = i[1] + "(記事ID:" + i[0] + ")";
+                newOption.classList.add(i[3]);
+                newOption.hidden = true;
+                related.appendChild(newOption);
+            }
+        }
+    }
+    
+
+  
+    const relatedMiddleParts = document.querySelectorAll(".MiddlePart");
+    relatedMiddleParts.forEach(relatedArticle => {
+        relatedArticle.onchange = function () {
+            let options = relatedArticle.parentNode.querySelector(".relatedArticles").querySelectorAll("option");
+            for (let i of options) {
+                if (relatedArticle.value != i.classList[0]) {
+                    i.hidden = true;
+                }
+                else {
+                    i.hidden = false
+                }
+            }
+
+        }
+    })
+
+    function onSubmit() {
+        const form = document.querySelector("#form");
+        const folderURL = document.querySelector("#folderURL").value.toString();
+        google.script.run.gasUpload(form);
+    }
+
+    function onFailure(e) {
+        console.log(e.message);
+        alert(e.message);
+    }
+
+    function onSuccessUploadFiles() {
+        alert("アップロードが成功");
+    }
+
+    document.querySelector(".submitBtn").onclick = function () {
+        onSubmit();
+    }
+    function inputData() {
+        let parsedData = JSON.parse(dataForEdit);
+        for (let key in parsedData) {
+            let str = '[name="' + key + '"]'
+            let inputTag = document.querySelector(str);
+            if(inputTag){
+              if (inputTag.type != "file" && inputTag.tagName != "SELECT") {
+                inputTag.value = parsedData[key];
+              } 
+              else if(inputTag.tagName == "SELECT"){
+                let options = inputTag.querySelectorAll("option");
+                options.forEach(option => {
+                  if(option.value == parsedData[key]){
+                    console.log("option中身",option.value, parsedData[key]);
+                    option.selected = true;
+                  }
+              })
+            }
+          }
+            
+        }
+    }
+
+</script>
