@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base target="_top">
+    <?!= HtmlService.createHtmlOutputFromFile('css').getContent(); ?>
+    
+</head>
+
+<body>
+  <div id="js-loader" class="loader"></div>
+
+  <div id="leftSideBar"></div>
+  <main>
+    <div id="consoleMenu" class="menu">
+        <button type="button" class="menuButton" id="index" onclick="moveToID(this)">新規記事追加</button>
+        <button type="button" class="menuButton" id="articlesList" onclick="moveToID(this)">記事編集</button>
+    </div>
+  </main>
+</body>
+<?!= HtmlService.createHtmlOutputFromFile('loading').getContent(); ?>
+<script>
+  const currentURL = '<?= getAppUrl() ?>?page=';
+</script>
+<?!= HtmlService.createHtmlOutputFromFile('js').getContent(); ?>
+
+
+
+</html>
