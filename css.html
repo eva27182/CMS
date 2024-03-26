@@ -1,0 +1,610 @@
+<style>
+  button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    appearance: none;
+  }
+
+  body {
+    user-select: none;
+    display: flex;
+    margin: 0;
+  }
+
+  div.hidden{
+    display: none;
+  }
+
+  .menu {
+    margin-top: 5vh;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #fff;
+    box-shadow: 0 0 4px rgb(0 0 0 / 30%);
+    padding: 0 16px;
+    padding-bottom: 10px;
+  }
+
+  .menuButton {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 64px;
+    padding: 0 24px;
+    overflow: hidden;
+    font-size: x-large;
+    color: #222;
+    text-align: center;
+    overflow-wrap: anywhere;
+    background: transparent;
+    cursor: pointer;
+    border: 0;
+  }
+
+  .menuButton::after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 2px;
+    content: "";
+    background-color: #6fa24a;
+    transform: scaleX(0);
+    transform-origin: right top;
+
+  }
+
+  @media (any-hover: hover) {
+    .menuButton::after {
+      transition: transform 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .menuButton:hover::after {
+      transition: transform 0.4s cubic-bezier(0.9, 0, 0, 1);
+      transform: scaleX(1);
+      transform-origin: left top;
+
+    }
+  }
+
+  #leftSideBar {
+    position: fixed;
+    width: 15%;
+    /*height: 100vh;*/
+    min-height: 100vh;
+    background-color: #6fa24a;
+  }
+
+  #leftSideBar.active {
+    width: 55px;
+  }
+
+  #leftSideBar.active section {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #leftSideBar.active #menuHeader {
+    display: none;
+  }
+
+  #buttonArea {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #buttonArea.active {
+    display: none;
+  }
+
+  #leftSideBar button {
+    margin-top: 10px;
+    font-size: larger;
+  }
+
+  /*以下ハンバーガーメニュー*/
+  #leftSideBar section {
+    display: flex;
+    margin-top: 10px;
+    margin-right: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-end;
+  }
+
+  #menuHeader {
+    width: 100%;
+    font-size: x-large;
+    text-align: center;
+  }
+
+  .btn-trigger {
+    position: relative;
+    width: 50px;
+    height: 44px;
+    cursor: pointer;
+  }
+
+  .btn-trigger span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: #fff;
+    border-radius: 4px;
+  }
+
+  .btn-trigger,
+  .btn-trigger span {
+    display: inline-block;
+    transition: all .5s;
+    box-sizing: border-box;
+  }
+
+  .btn-trigger span:nth-of-type(1) {
+    top: 0;
+  }
+
+  .btn-trigger span:nth-of-type(2) {
+    top: 20px;
+  }
+
+  .btn-trigger span:nth-of-type(3) {
+    bottom: 0;
+  }
+
+  #btn01.active span:nth-of-type(1) {
+    -webkit-transform: translateY(20px) rotate(-45deg);
+    transform: translateY(20px) rotate(-45deg);
+  }
+
+  #btn01.active span:nth-of-type(2) {
+    opacity: 0;
+  }
+
+  #btn01.active span:nth-of-type(3) {
+    -webkit-transform: translateY(-20px) rotate(45deg);
+    transform: translateY(-20px) rotate(45deg);
+  }
+
+  h3,
+  h4 {
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  h1 {
+    color: rgb(4, 168, 132);
+  }
+
+  a.try {
+    color: rgb(72, 0, 255);
+  }
+
+  code {
+    color: rgb(68, 20, 113);
+  }
+
+  .parts {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .parts>div>h3 {
+    margin-right: 20px;
+  }
+
+  .parts>div>select {
+    width: 80%;
+    height: 30px;
+  }
+
+  .previewImg {
+    margin-right: auto;
+    margin-left: auto;
+    height: auto;
+    width: auto;
+    height: 100%;
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  details {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(213, 193, 193);
+    margin-bottom: 2px;
+    border: 1px solid #72717150;
+    transition: all .3s;
+  }
+
+  details:not([class]) {
+    background-color: rgb(255, 232, 232);
+    margin-bottom: 1vh;
+  }
+
+  details:hover {
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.4), 0 0 50px rgba(128, 128, 128, 0.1);
+    border-color: transparent;
+  }
+
+
+  .approachDetails {
+    background-color: rgb(255, 232, 232);
+    margin-bottom: 1vh;
+  }
+
+  summary {
+    list-style: none;
+    height: 100%;
+    padding: 1vh;
+  }
+
+  summary>h2 {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .formArea {
+    width: 70vw;
+    margin-left: auto;
+    margin-right: auto;
+
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 10px;
+    margin-left: 5%;
+    padding-bottom: 10px;
+  }
+
+  .row>li>div {
+    width: 100%;
+  }
+
+  .row>h3 {
+    width: 25%;
+  }
+
+  .row>h4 {
+    width: 20%;
+  }
+
+  .row>input {
+    width: 40%;
+    margin-right: 5%;
+  }
+
+  .row>textarea {
+    width: 50%;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 5%;
+  }
+
+  .row>select {
+    width: 20%;
+  }
+
+  li>.row {
+    display: flex;
+  }
+
+  li>.row>details {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .submitBtn {
+    background-color: rgb(255, 232, 232);
+    margin-top: 5vh;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+
+  }
+
+  .imageInputArea {
+    position: relative;
+    width: 80%;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    background-color: antiquewhite;
+  }
+
+  .imageInputArea>h3 {
+    margin-left: 2.5%;
+  }
+
+  .imageArea {
+    display: flex;
+    width: 95%;
+    height: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+  }
+
+  .imageArea:hover>button {
+    opacity: 1;
+  }
+
+  .imageInputButton {
+    position: absolute;
+    white-space: nowrap;
+    height: 10%;
+    top: 45%;
+    width: 30%;
+    left: 35%;
+    right: 35%;
+    z-index: 999;
+    font-size: small;
+    transition: .1s;
+    opacity: 0.3;
+  }
+
+
+  .caseHeading>input {
+    font-size: large;
+  }
+
+  .inputBox {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 10px;
+  }
+
+  .inputBox>h3 {
+    margin: 0;
+  }
+
+  .inputBox>div>select {
+    width: 50%;
+    height: 30px;
+  }
+
+  .approachImgArea {
+    margin-bottom: 50px;
+  }
+
+  /*--------------------*/
+
+
+  details>div>div {
+    overflow: hidden;
+    /* コンテンツがアニメーションで徐々に表示されるように */
+  }
+
+  details summary {
+    display: block;
+    /* 矢印アイコンを非表示に */
+    cursor: pointer;
+    /* カーソルの形状をポインターに */
+    position: relative;
+    /* 絶対配置する疑似要素のアイコンの基準に */
+    padding: 0.5rem 0.5rem 0.5rem 36px;
+    /* padding-left にアイコンのスペースを確保 */
+  }
+
+  details summary::-webkit-details-marker {
+    display: none;
+    /* Safari で三角形のアイコンを非表示に */
+  }
+
+  /* 独自のアイコンを擬似要素で作成 */
+  details summary::before {
+    content: "";
+    /* content は空を指定 */
+    position: absolute;
+    /* 絶対配置 */
+    top: 0;
+    bottom: 0;
+    left: 10px;
+    /* 位置の調整 */
+    margin: auto 0;
+    /* top:0 と bottom:0 と共に指定して垂直方向中央揃え */
+    width: 10px;
+    /* アイコンの辺の長さ */
+    height: 10px;
+    /* アイコンの辺の長さ */
+    border-top: 3px solid #097b27;
+    /* アイコンの線の太さと種類と色 */
+    border-right: 3px solid #097b27;
+    /* アイコンの線の太さと種類と色 */
+    transform: rotate(45deg);
+    /* 回転して右向きの矢印に */
+  }
+
+  h3,
+  h4 {
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  main {
+    width: 85%;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-bottom: 10vh;
+  }
+  main.active {
+    width: 90%;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-bottom: 10vh;
+  }
+
+  h1 {
+    color: rgb(4, 168, 132);
+  }
+
+  a.try {
+    color: rgb(72, 0, 255);
+  }
+
+  code {
+    color: rgb(68, 20, 113);
+  }
+
+  .parts {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .parts>div>h3 {
+    margin-right: 20px;
+  }
+
+  .parts>div>select {
+    width: 80%;
+    height: 30px;
+  }
+
+  .previewImg {
+    margin-right: auto;
+    margin-left: auto;
+    height: auto;
+    width: auto;
+    height: 100%;
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .inputBox>input,
+  textarea {
+    width: 95%;
+    height: 50px;
+  }
+
+  .article {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    /*justify-content: space-evenly;*/
+    height: 45px;
+    overflow: hidden;
+    font-size: large;
+    color: #222;
+    text-align: center;
+    overflow-wrap: anywhere;
+    background: transparent;
+    cursor: pointer;
+    border: 0;
+  }
+
+  .article::after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 2px;
+    content: "";
+    background-color: #6fa24a;
+    transform: scaleX(0);
+    transform-origin: right top;
+
+  }
+
+  .article>div {
+    white-space: nowrap;
+    text-align: left;
+  }
+
+  .id {
+    width: 10%;
+  }
+
+  .title {
+    width: 54%;
+  }
+
+  .bigPart,
+  .middlePart,
+  .smallPart {
+    width: 12%;
+  }
+
+
+  @media (any-hover: hover) {
+    .article::after {
+      transition: transform 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .article:hover::after {
+      transition: transform 0.4s cubic-bezier(0.9, 0, 0, 1);
+      transform: scaleX(1);
+      transform-origin: left top;
+
+    }
+  }
+
+  .loader {
+    align-items: center;
+    background: #fff;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 999;
+  }
+
+  .loader::after {
+    animation: loader 0.5s linear infinite;
+    border: 1px solid orange;
+    border-radius: 50%;
+    border-right: 1px solid rgba(255, 165, 0, 0.2);
+    border-top: 1px solid rgba(255, 165, 0, 0.2);
+    content: "";
+    height: 70px;
+    width: 70px;
+  }
+
+  @keyframes loader {
+    0% {
+      transform: rotate(0);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+</style>
