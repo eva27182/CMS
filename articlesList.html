@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base target="_top">
+    <?!= HtmlService.createHtmlOutputFromFile('css').getContent(); ?>
+</head>
+
+<body>
+  <div id="js-loader" class="loader"></div>
+  <div id="leftSideBar"></div>
+  <main>
+    <div id="menu" class="menu"></div>
+  </main>
+</body>
+<?!= HtmlService.createHtmlOutputFromFile('loading').getContent(); ?>
+<script>
+  const currentURL = '<?= getAppUrl() ?>?page=';
+</script>
+<?!= HtmlService.createHtmlOutputFromFile('js').getContent(); ?>
+
+
+</html>
