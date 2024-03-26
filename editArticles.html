@@ -1,0 +1,2324 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base target="_top">
+  <?!= HtmlService.createHtmlOutputFromFile('css').getContent(); ?>
+</head>
+
+<body>
+  <div id="js-loader" class="loader"></div>
+  <div id="leftSideBar"></div>
+  <main>
+    <form class="formArea" id="form" method="post"
+      action="<!--ここにはデプロイしたwebアプリのURLを入力してください-->">
+      <input name="articleIdentifier" value="<?= articleIdentifier ?>"  hidden>
+      <input name="articleDirectory" id="folderURL" value="<?= articleDirectoryURL ?>"  hidden>
+      <div>
+        <details class="case">
+          <summary>
+            <h2>症例説明</h2>
+          </summary>
+          <div>
+            <div class="imageInputArea">
+              <h3>メイン画像</h3>
+              <h4></h4>
+              <div class="imageArea">
+                <input type="file" accept="image/*" name="casePrimaryVisual" id="casePrimaryVisual"
+                                    onchange="previewImgFile(this)" hidden />
+                <button type="button" class="imageInputButton"
+                                    onclick="imageButton(this)">画像を選択してください</button>
+                <img class="previewImg">
+              </div>
+            </div>
+            <div class="parts">
+              <div class="inputBox">
+                <h3>大部位：</h3>
+                <select name="casePrimaryPartName" id="casePrimaryPartName">
+                  <option></option>
+                </select>
+              </div>
+              <div class="inputBox">
+                <h3>中部位：</h3>
+                <select name="caseSecondaryPartName" id="caseSecondaryPartName">
+                  <option></option>
+                </select>
+              </div>
+              <div class="inputBox">
+                <h3>小部位：</h3>
+                <select name="caseTertiaryPartName" id="caseTertiaryPartName">
+                  <option></option>
+                </select>
+              </div>
+            </div>
+            <div class="caseHeading inputBox">
+              <h3>症例タイトル</h3>
+              <input type="text" name="caseHeading" />
+            </div>
+            <div class="inputBox">
+              <h3>症状</h3>
+              <textarea type="text" name="caseIndications" rows="3"></textarea>
+            </div>
+            <div class="inputBox">
+              <h3>原因詳細</h3>
+              <textarea type="text" name="caseCauseDescription" rows="3"></textarea>
+            </div>
+          </div>
+        </details>
+        <details class="cause">
+          <summary>
+            <h2>原因別対処法一覧</h2>
+          </summary>
+          <div>
+            <div class="causeBox">
+              <div class="row">
+                <h3>原因1</h3>
+                <h4>タイトル</h4><input type="text" name="causeHeading1" />
+              </div>
+              <div class="row">
+                <h3>原因2</h3>
+                <h4>タイトル</h4><input type="text" name="causeHeading2" />
+              </div>
+              <div class="row">
+                <h3>原因3</h3>
+                <h4>タイトル</h4><input type="text" name="causeHeading3" />
+              </div>
+              <div class="row">
+                <h3>原因4</h3>
+                <h4>タイトル</h4><input type="text" name="causeHeading4" />
+              </div>
+              <div class="row">
+                <h3>原因5</h3>
+                <h4>タイトル</h4><input type="text" name="causeHeading5" />
+              </div>
+            </div>
+            <button type="button" class="addCauses" onclick="addCause()">
+                            原因を追加
+                        </button>
+          </div>
+        </details>
+        <details class="approach">
+          <summary>
+            <h2>対処法</h2>
+          </summary>
+          <div>
+            <div class="approachDetailsBox">
+              <details class="approachDetails">
+                <summary>
+                  <h3>対処法1</h3>
+                </summary>
+                <div>
+                  <div class="inputBox">
+                    <div class="row">
+                      <h4>原因紐付けID</h4>
+                      <select name="approachIdentifier1" id="approachIdentifier1" class="selectCause">
+                                                <option>原因を選択</option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="inputBox">
+                    <h3>タイトル</h3>
+                    <input type="text" name="approachHeading1" />
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>解説（状態・動作）</h4>
+                      </summary>
+                      <div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像1</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*" name="approachConditionVisual1-1" id="approachConditionVisual1-1" onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton" onclick="imageButton(this)">画像を選択してください
+                              </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文1</h3>
+                            <textarea type="text" name="approachConditionExplanation1-1"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID1</h3>
+                            <textarea type="text" name="approachConditionLocationId1-1"
+                                                            rows="3"></textarea>
+                          </div>
+
+
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像2</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionVisual1-2"
+                                                                id="approachConditionVisual1-2"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文2</h3>
+                            <textarea type="text" name="approachConditionExplanation1-2"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID2</h3>
+                            <textarea type="text" name="approachConditionLocationId1-2"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像3</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionVisual1-3"
+                                                                id="approachConditionVisual1-3"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文3</h3>
+                            <textarea type="text" name="approachConditionExplanation1-3"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID3</h3>
+                            <textarea type="text" name="approachConditionLocationId1-3"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像4</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionVisual1-4"
+                                                                id="approachConditionVisual1-4"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文4</h3>
+                            <textarea type="text" name="approachConditionExplanation1-4"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID4</h3>
+                            <textarea type="text" name="approachConditionLocationId1-4"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像5</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionVisual1-5"
+                                                                id="approachConditionVisual1-5"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文5</h3>
+                            <textarea type="text" name="approachConditionExplanation1-5"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID5</h3>
+                            <textarea type="text" name="approachConditionLocationId1-5"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <button type="button" onclick="addConditionImage(this)">ここをクリックして説明画像を追加</button>
+                      </div>
+
+                    </details>
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>動画アップロード</h4>
+                      </summary>
+                      <div>
+                        <div class="imageInputArea">
+                          <h3>施術モデル動画1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="video/*" name="approachModelClip1"
+                                                            id="approachModelClip1"
+                                                            onchange="previewVideoFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            動画を選択してください
+                                                        </button>
+                            <video controls class="previewImg">
+                          </div>
+                        </div>
+                        <div class="imageInputArea">
+                          <h3>施術実写動画1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="video/*" name="approachRealClip1"
+                                                            id="approachRealClip1"
+                                                            onchange="previewVideoFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            動画を選択してください
+                                                        </button>
+                            <video controls class="previewImg">
+                          </div>
+                        </div>
+                      </div>
+                    </details>
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>詳しい解説</h4>
+                      </summary>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsVisual1-1" id="approachDetailsVisual1-1"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文1</h3>
+                          <textarea type="text" name="approachDetailsExplanation1-1"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像2</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsVisual1-2" id="approachDetailsVisual1-2"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文2</h3>
+                          <textarea type="text" name="approachDetailsExplanation1-2"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像3</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsVisual1-3" id="approachDetailsVisual1-3"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文3</h3>
+                          <textarea type="text" name="approachDetailsExplanation1-3"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像4</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsVisual1-4" id="approachDetailsVisual1-4"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文4</h3>
+                          <textarea type="text" name="approachDetailsExplanation1-4"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像5</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsVisual1-5" id="approachDetailsVisual1-5"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文5</h3>
+                          <textarea type="text" name="approachDetailsExplanation1-5"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <button type="button" onclick="addapproachDetails(this)">ここをクリックして詳しい解説を追加</button>
+                    </details>
+                  </div>
+                </div>
+              </details>
+            </div>
+            <div class="approachDetailsBox">
+              <details class="approachDetails">
+                <summary>
+                  <h3>対処法2</h3>
+                </summary>
+                <div>
+                  <div class="inputBox">
+                    <div class="row">
+                      <h4>原因紐付けID</h4>
+                      <select name="approachIdentifier2" id="approachIdentifier2" class="selectCause">
+                                                <option>原因を選択</option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                                            </select>
+                    </div>
+                  </div>
+                  <div class="inputBox">
+                    <h3>タイトル</h3>
+                    <input type="text" name="approachHeading2" />
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>解説（状態・動作）</h4>
+                      </summary>
+                      <div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像1</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionVisual2-1"
+                                                                id="approachConditionVisual2-1"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文1</h3>
+                            <textarea type="text" name="approachConditionExplanation2-1"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID1</h3>
+                            <textarea type="text" name="approachConditionLocationId2-1"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像2</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionVisual2-2"
+                                                                id="approachConditionVisual2-2"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文2</h3>
+                            <textarea type="text" name="approachConditionExplanation2-2"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID2</h3>
+                            <textarea type="text" name="approachConditionLocationId2-2"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像3</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionVisual2-3"
+                                                                id="approachConditionVisual2-3"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文3</h3>
+                            <textarea type="text" name="approachConditionExplanation2-3"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID3</h3>
+                            <textarea type="text" name="approachConditionLocationId2-3"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像4</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionVisual2-4"
+                                                                id="approachConditionVisual2-4"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文4</h3>
+                            <textarea type="text" name="approachConditionExplanation2-4"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID4</h3>
+                            <textarea type="text" name="approachConditionLocationId2-4"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像5</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionVisual2-5"
+                                                                id="approachConditionVisual2-5"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文5</h3>
+                            <textarea type="text" name="approachConditionExplanation2-5"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID5</h3>
+                            <textarea type="text" name="approachConditionLocationId2-5"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <button type="button" onclick="addConditionImage(this)">ここをクリックして説明画像を追加</button>
+                      </div>
+                    </details>
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>動画アップロード</h4>
+                      </summary>
+                      <div>
+                        <div class="imageInputArea">
+                          <h3>施術モデル動画1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="video/*" name="approachModelClip2"
+                                                            id="approachModelClip2"
+                                                            onchange="previewVideoFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            動画を選択してください
+                                                        </button>
+                            <video controls class="previewImg">
+                          </div>
+                        </div>
+                        <div class="imageInputArea">
+                          <h3>施術実写動画1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="video/*" name="approachRealClip2"
+                                                            id="approachRealClip2"
+                                                            onchange="previewVideoFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            動画を選択してください
+                                                        </button>
+                            <video controls class="previewImg">
+                          </div>
+                        </div>
+                      </div>
+                    </details>
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>詳しい解説</h4>
+                      </summary>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsVisual2-1" id="approachDetailsVisual2-1"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+
+                        <div class="inputBox">
+                          <h3>画像説明文1</h3>
+                          <textarea type="text" name="approachDetailsExplanation2-1"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像2</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsVisual2-2" id="approachDetailsVisual2-2"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文2</h3>
+                          <textarea type="text" name="approachDetailsExplanation2-2"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像3</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsVisual2-3" id="approachDetailsVisual2-3"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文3</h3>
+                          <textarea type="text" name="approachDetailsExplanation2-3"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像4</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsVisual2-4" id="approachDetailsVisual2-4"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文4</h3>
+                          <textarea type="text" name="approachDetailsExplanation2-4"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像5</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsVisual2-5" id="approachDetailsVisual2-5"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文5</h3>
+                          <textarea type="text" name="approachDetailsExplanation2-5"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <button type="button" onclick="addapproachDetails(this)">ここをクリックして詳しい解説を追加</button>
+                    </details>
+                  </div>
+                </div>
+              </details>
+            </div>
+            <div class="approachDetailsBox">
+              <details class="approachDetails">
+                <summary>
+                  <h3>対処法3</h3>
+                </summary>
+                <div>
+                  <div class="inputBox">
+                    <div class="row">
+                      <h4>原因紐付けID</h4>
+                      <select name="approachIdentifier3" id="approachIdentifier3" class="selectCause">
+                                                <option>原因を選択</option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                                            </select>
+                    </div>
+                  </div>
+                  <div class="inputBox">
+                    <h3>タイトル</h3>
+                    <input type="text" name="approachHeading3" />
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>解説（状態・動作）</h4>
+                      </summary>
+                      <div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像1</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionVisual3-1"
+                                                                id="approachConditionVisual3-1"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文1</h3>
+                            <textarea type="text" name="approachConditionExplanation3-1"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID1</h3>
+                            <textarea type="text" name="approachConditionLocationId3-1"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像2</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionVisual3-2"
+                                                                id="approachConditionVisual3-2"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文2</h3>
+                            <textarea type="text" name="approachConditionExplanation3-2"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID2</h3>
+                            <textarea type="text" name="approachConditionLocationId3-2"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像3</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionVisual3-3"
+                                                                id="approachConditionVisual3-3"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文3</h3>
+                            <textarea type="text" name="approachConditionExplanation3-3"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID3</h3>
+                            <textarea type="text" name="approachConditionLocationId3-3"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像4</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionVisual3-4"
+                                                                id="approachConditionVisual3-4"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文4</h3>
+                            <textarea type="text" name="approachConditionExplanation3-4"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID4</h3>
+                            <textarea type="text" name="approachConditionLocationId3-4"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像5</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionVisual3-5"
+                                                                id="approachConditionVisual3-5"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文5</h3>
+                            <textarea type="text" name="approachConditionExplanation3-5"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID5</h3>
+                            <textarea type="text" name="approachConditionLocationId3-5"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <button type="button" onclick="addConditionImage(this)">ここをクリックして説明画像を追加</button>
+                      </div>
+                    </details>
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>動画アップロード</h4>
+                      </summary>
+                      <div>
+                        <div class="imageInputArea">
+                          <h3>施術モデル動画1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="video/*" name="approachModelClip3"
+                                                            id="approachModelClip3"
+                                                            onchange="previewVideoFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            動画を選択してください
+                                                        </button>
+                            <video controls class="previewImg">
+                          </div>
+                        </div>
+                        <div class="imageInputArea">
+                          <h3>施術実写動画1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="video/*" name="approachRealClip3"
+                                                            id="approachRealClip3"
+                                                            onchange="previewVideoFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            動画を選択してください
+                                                        </button>
+                            <video controls class="previewImg">
+                          </div>
+                        </div>
+                      </div>
+                    </details>
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>詳しい解説</h4>
+                      </summary>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsVisual3-1" id="approachDetailsVisual3-1"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文1</h3>
+                          <textarea type="text" name="approachDetailsExplanation3-1"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像2</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsVisual3-2" id="approachDetailsVisual3-2"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文2</h3>
+                          <textarea type="text" name="approachDetailsExplanation3-2"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像3</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsVisual3-3" id="approachDetailsVisual3-3"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文3</h3>
+                          <textarea type="text" name="approachDetailsExplanation3-3"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像4</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsVisual3-4" id="approachDetailsVisual3-4"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文4</h3>
+                          <textarea type="text" name="approachDetailsExplanation3-4"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像5</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsVisual3-5" id="approachDetailsVisual3-5"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文5</h3>
+                          <textarea type="text" name="approachDetailsExplanation3-5"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <button type="button" onclick="addapproachDetails(this)">ここをクリックして詳しい解説を追加</button>
+                    </details>
+                  </div>
+                </div>
+              </details>
+            </div>
+            <div class="approachDetailsBox">
+              <details class="approachDetails">
+                <summary>
+                  <h3>対処法4</h3>
+                </summary>
+                <div>
+                  <div class="inputBox">
+                    <div class="row">
+                      <h4>原因紐付けID</h4>
+                      <select name="approachIdentifier4" id="approachIdentifier4" class="selectCause">
+                                                <option>原因を選択</option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                                            </select>
+                    </div>
+                  </div>
+                  <div class="inputBox">
+                    <h3>タイトル</h3>
+                    <input type="text" name="approachHeading4" />
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>解説（状態・動作）</h4>
+                      </summary>
+                      <div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像1</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionVisual4-1"
+                                                                id="approachConditionVisual4-1"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文1</h3>
+                            <textarea type="text" name="approachConditionExplanation4-1"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID1</h3>
+                            <textarea type="text" name="approachConditionLocationId4-1"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像2</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionVisual4-2"
+                                                                id="approachConditionVisual4-2"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文2</h3>
+                            <textarea type="text" name="approachConditionExplanation4-2"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID2</h3>
+                            <textarea type="text" name="approachConditionLocationId4-2"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像3</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionVisual4-3"
+                                                                id="approachConditionVisual4-3"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文3</h3>
+                            <textarea type="text" name="approachConditionExplanation4-3"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID3</h3>
+                            <textarea type="text" name="approachConditionLocationId4-3"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像4</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionVisual4-4"
+                                                                id="approachConditionVisual4-4"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文4</h3>
+                            <textarea type="text" name="approachConditionExplanation4-4"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID4</h3>
+                            <textarea type="text" name="approachConditionLocationId4-4"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像5</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionVisual4-5"
+                                                                id="approachConditionVisual4-5"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文5</h3>
+                            <textarea type="text" name="approachConditionExplanation4-5"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID5</h3>
+                            <textarea type="text" name="approachConditionLocationId4-5"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <button type="button" onclick="addConditionImage(this)">ここをクリックして説明画像を追加</button>
+                      </div>
+                    </details>
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>動画アップロード</h4>
+                      </summary>
+                      <div>
+                        <div class="imageInputArea">
+                          <h3>施術モデル動画1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="video/*" name="approachModelClip4"
+                                                            id="approachModelClip4"
+                                                            onchange="previewVideoFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            動画を選択してください
+                                                        </button>
+                            <video controls class="previewImg">
+                          </div>
+                        </div>
+                        <div class="imageInputArea">
+                          <h3>施術実写動画1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="video/*" name="approachRealClip4"
+                                                            id="approachRealClip4"
+                                                            onchange="previewVideoFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            動画を選択してください
+                                                        </button>
+                            <video controls class="previewImg">
+                          </div>
+                        </div>
+                      </div>
+                    </details>
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>詳しい解説</h4>
+                      </summary>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsVisual4-1" id="approachDetailsVisual4-1"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文1</h3>
+                          <textarea type="text" name="approachDetailsExplanation4-1"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像2</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsVisual4-2" id="approachDetailsVisual4-2"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文2</h3>
+                          <textarea type="text" name="approachDetailsExplanation4-2"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像3</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsVisual4-3" id="approachDetailsVisual4-3"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文3</h3>
+                          <textarea type="text" name="approachDetailsExplanation4-3"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像4</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsVisual4-4" id="approachDetailsVisual4-4"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文4</h3>
+                          <textarea type="text" name="approachDetailsExplanation4-4"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像5</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsVisual4-5" id="approachDetailsVisual4-5"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文5</h3>
+                          <textarea type="text" name="approachDetailsExplanation4-5"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <button type="button" onclick="addapproachDetails(this)">ここをクリックして詳しい解説を追加</button>
+                    </details>
+                  </div>
+                </div>
+              </details>
+            </div>
+            <div class="approachDetailsBox">
+              <details class="approachDetails">
+                <summary>
+                  <h3>対処法5</h3>
+                </summary>
+                <div>
+                  <div class="inputBox">
+                    <div class="row">
+                      <h4>原因紐付けID</h4>
+                      <select name="approachId5" id="approachId5" class="selectCause">
+                                                <option>原因を選択</option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                                            </select>
+                    </div>
+                  </div>
+                  <div class="inputBox">
+                    <h3>タイトル</h3>
+                    <input type="text" name="approachTitle5" />
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>解説（状態・動作）</h4>
+                      </summary>
+                      <div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像1</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionImage5-1"
+                                                                id="approachConditionImage5-1"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文1</h3>
+                            <textarea type="text" name="approachConditionDescription5-1"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID1</h3>
+                            <textarea type="text" name="approachConditionPositionId5-1"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像2</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionImage5-2"
+                                                                id="approachConditionImage5-2"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文2</h3>
+                            <textarea type="text" name="approachConditionDescription5-2"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID2</h3>
+                            <textarea type="text" name="approachConditionPositionId5-2"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像3</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionImage5-3"
+                                                                id="approachConditionImage5-3"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文3</h3>
+                            <textarea type="text" name="approachConditionDescription5-3"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID3</h3>
+                            <textarea type="text" name="approachConditionPositionId5-3"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像4</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionImage5-4"
+                                                                id="approachConditionImage5-4"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文4</h3>
+                            <textarea type="text" name="approachConditionDescription5-4"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID4</h3>
+                            <textarea type="text" name="approachConditionPositionId5-4"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像5</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionImage5-5"
+                                                                id="approachConditionImage5-5"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文5</h3>
+                            <textarea type="text" name="approachConditionDescription5-5"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID5</h3>
+                            <textarea type="text" name="approachConditionPositionId5-5"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <button type="button" onclick="addConditionImage(this)">ここをクリックして説明画像を追加</button>
+                      </div>
+                    </details>
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>動画アップロード</h4>
+                      </summary>
+                      <div>
+                        <div class="imageInputArea">
+                          <h3>施術モデル動画1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="video/*" name="approachModelVideo5"
+                                                            id="approachModelVideo5"
+                                                            onchange="previewVideoFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            動画を選択してください
+                                                        </button>
+                            <video controls class="previewImg">
+                          </div>
+                        </div>
+                        <div class="imageInputArea">
+                          <h3>施術実写動画1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="video/*" name="approachRealVideo5"
+                                                            id="approachRealVideo5"
+                                                            onchange="previewVideoFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            動画を選択してください
+                                                        </button>
+                            <video controls class="previewImg">
+                          </div>
+                        </div>
+                      </div>
+                    </details>
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>詳しい解説</h4>
+                      </summary>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsImage5-1" id="approachDetailsImage5-1"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文1</h3>
+                          <textarea type="text" name="approachDetailsDescription5-1"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像2</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsImage5-2" id="approachDetailsImage5-2"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文2</h3>
+                          <textarea type="text" name="approachDetailsDescription5-2"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像3</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsImage5-3" id="approachDetailsImage5-3"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文3</h3>
+                          <textarea type="text" name="approachDetailsDescription5-3"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像4</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsImage5-4" id="approachDetailsImage5-4"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文4</h3>
+                          <textarea type="text" name="approachDetailsDescription5-4"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像5</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsImage5-5" id="approachDetailsImage5-5"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文5</h3>
+                          <textarea type="text" name="approachDetailsDescription5-5"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <button type="button" onclick="addapproachDetails(this)">ここをクリックして詳しい解説を追加</button>
+                    </details>
+                  </div>
+                </div>
+              </details>
+            </div>
+            <div class="approachDetailsBox">
+              <details class="approachDetails">
+                <summary>
+                  <h3>対処法6</h3>
+                </summary>
+                <div>
+                  <div class="inputBox">
+                    <div class="row">
+                      <h4>原因紐付けID</h4>
+                      <select name="approachId6" id="approachId6" class="selectCause">
+                                                <option>原因を選択</option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                                            </select>
+                    </div>
+                  </div>
+                  <div class="inputBox">
+                    <h3>タイトル</h3>
+                    <input type="text" name="approachTitle6" />
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>解説（状態・動作）</h4>
+                      </summary>
+                      <div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像1</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionImage6-1"
+                                                                id="approachConditionImage6-1"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文1</h3>
+                            <textarea type="text" name="approachConditionDescription6-1"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID1</h3>
+                            <textarea type="text" name="approachConditionPositionId6-1"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像2</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionImage6-2"
+                                                                id="approachConditionImage6-2"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文2</h3>
+                            <textarea type="text" name="approachConditionDescription6-2"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID2</h3>
+                            <textarea type="text" name="approachConditionPositionId6-2"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像3</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionImage6-3"
+                                                                id="approachConditionImage6-3"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文3</h3>
+                            <textarea type="text" name="approachConditionDescription6-3"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID3</h3>
+                            <textarea type="text" name="approachConditionPositionId6-3"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像4</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionImage6-4"
+                                                                id="approachConditionImage6-4"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文4</h3>
+                            <textarea type="text" name="approachConditionDescription6-4"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID4</h3>
+                            <textarea type="text" name="approachConditionPositionId6-4"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像5</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionImage6-5"
+                                                                id="approachConditionImage6-5"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文5</h3>
+                            <textarea type="text" name="approachConditionDescription6-5"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID5</h3>
+                            <textarea type="text" name="approachConditionPositionId6-5"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <button type="button" onclick="addConditionImage(this)">ここをクリックして説明画像を追加</button>
+                      </div>
+                    </details>
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>動画アップロード</h4>
+                      </summary>
+                      <div>
+                        <div class="imageInputArea">
+                          <h3>施術モデル動画1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="video/*" name="approachModelVideo6"
+                                                            id="approachModelVideo6"
+                                                            onchange="previewVideoFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            動画を選択してください
+                                                        </button>
+                            <video controls class="previewImg">
+                          </div>
+                        </div>
+                        <div class="imageInputArea">
+                          <h3>施術実写動画1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="video/*" name="approachRealVideo6"
+                                                            id="approachRealVideo6"
+                                                            onchange="previewVideoFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            動画を選択してください
+                                                        </button>
+                            <video controls class="previewImg">
+                          </div>
+                        </div>
+                      </div>
+                    </details>
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>詳しい解説</h4>
+                      </summary>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsImage6-1" id="approachDetailsImage6-1"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文1</h3>
+                          <textarea type="text" name="approachDetailsDescription6-1"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像2</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsImage6-2" id="approachDetailsImage6-2"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文2</h3>
+                          <textarea type="text" name="approachDetailsDescription6-2"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像3</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsImage6-3" id="approachDetailsImage6-3"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文3</h3>
+                          <textarea type="text" name="approachDetailsDescription6-3"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像4</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsImage6-4" id="approachDetailsImage6-4"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文4</h3>
+                          <textarea type="text" name="approachDetailsDescription6-4"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像5</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsImage6-5" id="approachDetailsImage6-5"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文5</h3>
+                          <textarea type="text" name="approachDetailsDescription6-5"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <button type="button" onclick="addapproachDetails(this)">ここをクリックして詳しい解説を追加</button>
+                    </details>
+                  </div>
+                </div>
+              </details>
+            </div>
+            <div class="approachDetailsBox">
+              <details class="approachDetails">
+                <summary>
+                  <h3>対処法7</h3>
+                </summary>
+                <div>
+                  <div class="inputBox">
+                    <div class="row">
+                      <h4>原因紐付けID</h4>
+                      <select name="approachId7" id="approachId7" class="selectCause">
+                                                <option>原因を選択</option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                                                <option></option>
+                                            </select>
+                    </div>
+                  </div>
+                  <div class="inputBox">
+                    <h3>タイトル</h3>
+                    <input type="text" name="approachTitle7" />
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>解説（状態・動作）</h4>
+                      </summary>
+                      <div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像1</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionImage7-1"
+                                                                id="approachConditionImage7-1"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文1</h3>
+                            <textarea type="text" name="approachConditionDescription7-1"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID1</h3>
+                            <textarea type="text" name="approachConditionPositionId7-1"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像2</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionImage7-2"
+                                                                id="approachConditionImage7-2"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文2</h3>
+                            <textarea type="text" name="approachConditionDescription7-2"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID2</h3>
+                            <textarea type="text" name="approachConditionPositionId7-2"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像3</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionImage7-3"
+                                                                id="approachConditionImage7-3"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文3</h3>
+                            <textarea type="text" name="approachConditionDescription7-3"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID3</h3>
+                            <textarea type="text" name="approachConditionPositionId7-3"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像4</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionImage7-4"
+                                                                id="approachConditionImage7-4"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文4</h3>
+                            <textarea type="text" name="approachConditionDescription7-4"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID4</h3>
+                            <textarea type="text" name="approachConditionPositionId7-4"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="approachImgArea">
+                          <div class="imageInputArea">
+                            <h3>説明画像5</h3>
+                            <div class="imageArea">
+                              <input type="file" accept="image/*"
+                                                                name="approachConditionImage7-5"
+                                                                id="approachConditionImage7-5"
+                                                                onchange="previewImgFile(this)" hidden />
+                              <button type="button" class="imageInputButton"
+                                                                onclick="imageButton(this)">
+                                                                画像を選択してください
+                                                            </button>
+                              <img class="previewImg">
+                            </div>
+                          </div>
+                          <div class="inputBox">
+                            <h3>画像説明文5</h3>
+                            <textarea type="text" name="approachConditionDescription7-5"
+                                                            rows="3"></textarea>
+                          </div>
+                          <div class="inputBox">
+                            <h3>3D部位解説ID5</h3>
+                            <textarea type="text" name="approachConditionPositionId7-5"
+                                                            rows="3"></textarea>
+                          </div>
+                        </div>
+                        <button type="button" onclick="addConditionImage(this)">ここをクリックして説明画像を追加</button>
+                      </div>
+                    </details>
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>動画アップロード</h4>
+                      </summary>
+                      <div>
+                        <div class="imageInputArea">
+                          <h3>施術モデル動画1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="video/*" name="approachModelVideo7"
+                                                            id="approachModelVideo7"
+                                                            onchange="previewVideoFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            動画を選択してください
+                                                        </button>
+                            <video controls class="previewImg">
+                          </div>
+                        </div>
+                        <div class="imageInputArea">
+                          <h3>施術実写動画1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="video/*" name="approachRealVideo7"
+                                                            id="approachRealVideo7"
+                                                            onchange="previewVideoFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            動画を選択してください
+                                                        </button>
+                            <video controls class="previewImg">
+                          </div>
+                        </div>
+                      </div>
+                    </details>
+                  </div>
+                  <div>
+                    <details>
+                      <summary>
+                        <h4>詳しい解説</h4>
+                      </summary>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像1</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsImage7-1" id="approachDetailsImage7-1"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文1</h3>
+                          <textarea type="text" name="approachDetailsDescription7-1"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像2</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsImage7-2" id="approachDetailsImage7-2"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文2</h3>
+                          <textarea type="text" name="approachDetailsDescription7-2"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像3</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsImage7-3" id="approachDetailsImage7-3"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文3</h3>
+                          <textarea type="text" name="approachDetailsDescription7-3"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像4</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsImage7-4" id="approachDetailsImage7-4"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文4</h3>
+                          <textarea type="text" name="approachDetailsDescription7-4"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="detailDetails">
+                        <div class="imageInputArea">
+                          <h3>説明画像5</h3>
+                          <div class="imageArea">
+                            <input type="file" accept="image/*"
+                                                            name="approachDetailsImage7-5" id="approachDetailsImage7-5"
+                                                             onchange="previewImgFile(this)" hidden />
+                            <button type="button" class="imageInputButton"
+                                                            onclick="imageButton(this)">
+                                                            画像を選択してください
+                                                        </button>
+                            <img class="previewImg">
+                          </div>
+                        </div>
+                        <div class="inputBox">
+                          <h3>画像説明文5</h3>
+                          <textarea type="text" name="approachDetailsDescription7-5"
+                                                        rows="3"></textarea>
+                        </div>
+                      </div>
+                      <button type="button" onclick="addapproachDetails(this)">ここをクリックして詳しい解説を追加</button>
+                    </details>
+                  </div>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <button type="button" class="addApproach" onclick="addApproach()">
+                        対処法を追加
+                    </button>
+        </details>
+        <details class="related">
+          <summary>
+            <h2>関連症状</h2>
+          </summary>
+          <div>
+            <div class="row">
+              <h3>関連症状記事ID1</h3>
+              <!--BigPartはGASでdbから引っ張ってくる-->
+              <select class="MiddlePart">
+                                <option>中部位を選択</option>
+                            </select>
+              <select name="relatedIdentifier1" id="relatedIdentifier1" class="relatedArticles">
+                <option></option>
+              </select>
+            </div>
+            <div class="row">
+              <h3>関連症状記事ID2</h3>
+              <select class="MiddlePart">
+                                <option>中部位を選択</option>
+                            </select>
+              <select name="relatedIdentifier2" id="relatedIdentifier2" class="relatedArticles">
+                <option></option>
+              </select>
+            </div>
+            <div class="row">
+              <h3>関連症状記事ID3</h3>
+              <select class="MiddlePart">
+                                <option>中部位を選択</option>
+                            </select>
+              <select name="relatedIdentifier3" id="relatedIdentifier3" class="relatedArticles">
+                <option></option>
+              </select>
+            </div>
+          </div>
+        </details>
+      </div>
+      <input type="submit" value="送信" class="submitBtn">
+    </form>
+
+  </main>
+</body>
+<?!= HtmlService.createHtmlOutputFromFile('loading').getContent(); ?>
+<script>
+  const currentURL = '<?= getAppUrl() ?>?page=';
+  const dataForEdit = "<?= data ?>"
+</script>
+<?!= HtmlService.createHtmlOutputFromFile('js').getContent(); ?>
+
+
+</html>
+
+
